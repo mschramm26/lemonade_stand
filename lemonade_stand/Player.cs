@@ -6,14 +6,13 @@ using System.Threading.Tasks;
 
 namespace lemonade_stand
 {
-    class Player
+    static class Player
     {
         // member variables (HAS A)
-        public string playerName;
 
 
         // constructor (SPAWNER)
-        public Player()
+        static Player()
         {
 
         }
@@ -21,12 +20,20 @@ namespace lemonade_stand
 
         // member methods (CAN DO)
 
-        public string GetName()
+        public static string EnterName()
         {
             Console.WriteLine("Please enter your name.");
-            playerName = Console.ReadLine(); // validate this? need for SQL
+            string playerName = Console.ReadLine(); // validate this? need for SQL
             return playerName;
         }
+
+        public static double SetPriceOfCupOfLemonadeForDay()
+        {
+            Console.WriteLine("What price would you like to sell each cup of lemonade for today?");
+            double pricePerCup = Convert.ToDouble(Console.ReadLine());
+            return pricePerCup;
+        }
+
 
     }
 }

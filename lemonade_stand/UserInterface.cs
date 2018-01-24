@@ -9,11 +9,7 @@ namespace lemonade_stand
     static class UserInterface
     {
         // member variables (HAS A)
-        //public Day day;
-        //public Wallet wallet;
-        //public Lemons lemons;
-        //public Sugar sugar;
-        //public Ice ice;
+
 
         // constructor (SPAWNER)
         static UserInterface()
@@ -33,14 +29,15 @@ namespace lemonade_stand
 
         public static void PrintWeatherForecastForDay()
         {
-            Console.WriteLine("The forecast is: " + Day.GetActualWeatherForecastForDay() + "."); // have to tell it which day to look in - iterate? assign dayID property?
+            double forecastWeatherID = Day.GetWeatherForecastForDay();
+            Console.WriteLine("The forecast is: " + Game.weatherPossibilities[Convert.ToInt32(forecastWeatherID)] + "."); 
         }
 
         public static void PrintActualWeatherForDay()
         {
-            Console.WriteLine("The forecast is: " + Day.GetActualWeatherForDay() + "."); // have to tell it which day to look in - iterate? assign dayID property?
+            double actualWeatherID = Day.GetActualWeatherForDay(Weather.forecastWeatherID);
+            Console.WriteLine("The forecast is: " + Game.weatherPossibilities[Convert.ToInt32(actualWeatherID)] + "."); 
         }
-
 
 
         public static void PrintInventoryStatus()
@@ -56,15 +53,46 @@ namespace lemonade_stand
             Console.WriteLine("You have $" + Game.wallet.ContainsMoneyInDollars() + ".");
         }
 
-
-
-        public static void SummarizeWeek() // figure out this math, etc. ONLY ON DAY 7
+        public static double ShowFinancialsAtEndOfDayAndReturnProfitOrLoss(double cupsSoldToday)
         {
-            Console.WriteLine("Here is a summary of the week:");
-            Console.WriteLine("/n");
+            double dollarsMadeToday = Game.SellLemonadeToCustomerReturnsNumberOfCups() * Player.SetPriceOfCupOfLemonadeForDay();
+            double expensesToday = Day.CalculateDailyExpenses();
+
+            Console.WriteLine("You sold " + Game.cupsSoldToday + " cups today.");
+            Console.WriteLine("You made $" + dollarsMadeToday + ".");
+            Console.WriteLine("Your expenses today were $" + expensesToday + ".");
+
+            string profitOrLoss;
+
+            double difference = dollarsMadeToday - expensesToday;
+            if (difference == 0)
+            {
+                profitOrLoss = "HIT EVEN";
+            }
+            if (difference > 0)
+            {
+                profitOrLoss = "PROFIT";
+            }
+            if (difference < 0)
+            {
+                profitOrLoss = "LOSS";
+            }
+            else
+            {
+                profitOrLoss = null;
+            }
+            Console.WriteLine("You had a " + profitOrLoss + " of $" + difference + " today.");
+            return difference;
+        }
+
+
+
+        public static void SummarizeWeek() // figure out this math, etc. 
+        {
+            Console.WriteLine("Here is a summary of your week:" + "/n");
 
             Console.WriteLine("DAY 1");
-            Console.WriteLine("Beginning balance was X.");
+            Console.WriteLine("Beginning balance was X."); 
             Console.WriteLine("Revenue was X.");
             Console.WriteLine("Expenses were X.");
             Console.WriteLine("You had a X of X.");
@@ -114,10 +142,6 @@ namespace lemonade_stand
 
         }
 
-        public static void SaveFinalScoreOfPlayerToDatabase() // SQL - do this later
-        {
-            
-        }
 
         public static void PrintHighScoresFromAllTime() // SQL - do this later
         {

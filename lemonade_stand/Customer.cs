@@ -18,11 +18,23 @@ namespace lemonade_stand
         public double cupsWantedToPurchase;
         public bool isBuyer;
 
+
+
+
+
+
+
         // constructor  (SPAWNER)
         public Customer()
         {
             // instantiate the ~100 customer objects from above here
         }
+
+
+
+
+
+
 
         // member methods (CAN DO)
 

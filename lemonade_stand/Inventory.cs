@@ -10,7 +10,7 @@ namespace lemonade_stand
     {
 
         // member variables (HAS A)
-        static public double amountOfLemons; /*can i delete these?*/
+        static public double amountOfLemons; 
         static public double amountOfSugarInCups;
         static public double amountOfIceBags;
 
@@ -24,13 +24,13 @@ namespace lemonade_stand
 
         // member methods (CAN DO)
 
-        /*lemons*/
+        /*START lemons*/
         static public  double ReturnCurrentAmountOfLemons()
         {
             return amountOfLemons;
         }
 
-        public static double BuyLemonsFromStore(double lemonsBought) // subtract supplies used that day and/or add items purchased at store
+        public static double BuyLemonsFromStore(double lemonsBought) 
         {
             return amountOfLemons + lemonsBought;
         }
@@ -39,17 +39,17 @@ namespace lemonade_stand
         {
             return amountOfLemons - lemonsUsed;
         }
-        /*lemons*/
+        /*END lemons*/
 
 
 
-        /*sugar*/
+        /*START sugar*/
         static public  double ReturnCurrentAmountOfCupsOfSugar()
         {
             return amountOfSugarInCups;
         }
 
-        static public double BuyBagsOfSugarFromStore(double bagsBought) // subtract supplies used that day and/or add items purchased at store
+        static public double BuyBagsOfSugarFromStore(double bagsBought) 
         {
             return amountOfSugarInCups + (bagsBought * 8);
         }
@@ -58,11 +58,11 @@ namespace lemonade_stand
             return amountOfSugarInCups;
         }
 
-        /*sugar*/
+        /*END sugar*/
 
 
 
-        /*ice*/
+        /*START ice*/
         static public  double ReturnCurrentAmountOfBagsOfIce()
         {
             return amountOfIceBags;
@@ -77,7 +77,7 @@ namespace lemonade_stand
         {
             return amountOfIceBags + bagsBought;
         }
-        /*ice*/
+        /*END ice*/
 
 
 
