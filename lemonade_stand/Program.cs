@@ -18,11 +18,14 @@ namespace lemonade_stand
 
             // member methods (CAN DO)
 
-            Game playGame = new Game();
-            playGame.PlayGame();
+                //Game playGame = new Game();
+                //playGame.PlayGame();
 
-            Console.ReadLine();
-            // Environment.Exit(0); 
+
+                Game.PlayGame();
+
+                Console.ReadLine();
+                // Environment.Exit(0); 
 
         }
     }

@@ -6,38 +6,38 @@ using System.Threading.Tasks;
 
 namespace lemonade_stand
 {
-    class Game
+     static class Game
     {
         // member variables (HAS A)
-        public Player player; // instantiate a player object
-        public Wallet wallet;
-        public UserInterface ui;
+        public static Player player;
+        public static Wallet wallet;
+        //static UserInterface;
 
-        public List<string> weatherPossibilities; // list of forecasted and actual weather possibilities
-        public Weather actualWeather;
-        public Weather forecastWeather;
+        public static List<string> weatherPossibilities; // list of forecasted and actual weather possibilities
 
-        public Random rnd;
+        public static Random rnd; 
 
-        public Day dayOne;
-        public Day dayTwo;
-        public Day dayThree;
-        public Day dayFour;
-        public Day dayFive;
-        public Day daySix;
-        public Day daySeven;
+        public static Day day; // remove this later
+        public static Day dayOne;
+        public static Day dayTwo;
+        public static Day dayThree;
+        public static Day dayFour;
+        public static Day dayFive;
+        public static Day daySix;
+        public static Day daySeven;
+
+        public static double runningProfitOrLoss; // (it's $50 different from running balance)
 
 
 
-        // constructor  (SPAWNER)
-        public Game()
+        // constructor (SPAWNER)
+        static Game()
         {
             player = new Player();
-            ui = new UserInterface();
+            wallet = new Wallet();
+            //ui = new UserInterface();
 
             List<string> weatherPossibilities = WeatherPossibilities;
-            actualWeather = new Weather();
-            forecastWeather = new Weather();
 
             Random rnd = new Random();
 
@@ -53,26 +53,75 @@ namespace lemonade_stand
         }
 
         // member methods (CAN DO)
-        public void PlayGame()
+        public static void PlayGame()
         {
-            ui.WelcomeAndRules(); // welcomes player and introduces game
-            player.GetName(); // returns player's name as string
-            wallet.HasBeginningBalanceOf(); // player starts with $50
+            UserInterface.WelcomeAndRules(); 
+            player.GetName(); 
+
+            wallet.dollarsInWallet = 50;
+            runningProfitOrLoss = 0;
+
+            Inventory.amountOfLemons = 0;
+            Inventory.amountOfSugarInCups = 0;
+            Inventory.amountOfIceBags = 0;
+
 
             dayOne.RunDay();
-            dayTwo.RunDay();
-            dayThree.RunDay();
-            dayFour.RunDay();
-            dayFive.RunDay();
-            daySeven.RunDay();
+            runningProfitOrLoss = TrackAndPrintRunningWeeklyProfitOrLoss(runningProfitOrLoss);
 
-            ui.SummarizeWeek();
-            ui.SaveFinalScoreOfPlayerToDatabase();
-            ui.PrintHighScoresFromAllTime();
+            dayTwo.RunDay();
+            runningProfitOrLoss = TrackAndPrintRunningWeeklyProfitOrLoss(runningProfitOrLoss);
+
+            dayThree.RunDay();
+            runningProfitOrLoss = TrackAndPrintRunningWeeklyProfitOrLoss(runningProfitOrLoss);
+
+            dayFour.RunDay();
+            runningProfitOrLoss = TrackAndPrintRunningWeeklyProfitOrLoss(runningProfitOrLoss);
+
+            dayFive.RunDay();
+            runningProfitOrLoss = TrackAndPrintRunningWeeklyProfitOrLoss(runningProfitOrLoss);
+
+            daySix.RunDay();
+            runningProfitOrLoss = TrackAndPrintRunningWeeklyProfitOrLoss(runningProfitOrLoss);
+
+            daySeven.RunDay();
+            runningProfitOrLoss = TrackAndPrintRunningWeeklyProfitOrLoss(runningProfitOrLoss);
+
+            UserInterface.SummarizeWeek();
+            UserInterface.SaveFinalScoreOfPlayerToDatabase();
+            UserInterface.PrintHighScoresFromAllTime();
 
         }
 
-        public List<string> WeatherPossibilities
+
+        static public double TrackAndPrintRunningWeeklyProfitOrLoss(double runningProfitOrLoss)
+        {
+            if (day.ShowFinancialsAtEndOfDayAndReturnProfitOrLoss() == 0)
+            {
+
+                runningProfitOrLoss = runningProfitOrLoss + 0;
+                Console.WriteLine("You hit even. Your running PROFIT/LOSS for the week is $" + runningProfitOrLoss + "."); 
+                return runningProfitOrLoss;
+            }
+            if (day.ShowFinancialsAtEndOfDayAndReturnProfitOrLoss() > 0)
+            {
+                runningProfitOrLoss = runningProfitOrLoss + day.ShowFinancialsAtEndOfDayAndReturnProfitOrLoss();
+                Console.WriteLine("Your running PROFIT/LOSS for the week is $" + runningProfitOrLoss + ".");
+                return runningProfitOrLoss;
+            }
+            if (day.ShowFinancialsAtEndOfDayAndReturnProfitOrLoss() < 0)
+            {
+                runningProfitOrLoss = runningProfitOrLoss - day.ShowFinancialsAtEndOfDayAndReturnProfitOrLoss();
+                Console.WriteLine("Your running PROFIT/LOSS for the week is $" + runningProfitOrLoss + ".");
+                return runningProfitOrLoss;
+            }
+            else
+            {
+                return runningProfitOrLoss;
+            }
+        }
+
+        static public List<string> WeatherPossibilities
         {
             set
             {
@@ -86,16 +135,11 @@ namespace lemonade_stand
             }
         }
 
-        public int CountWeatherPossibilities(List<string> weatherPossibilities)
+        static public int CountWeatherPossibilities(List<string> weatherPossibilities)
         {
             return weatherPossibilities.Count();
         }
 
-        public int ChooseRandom(int lowerLimit, int upperLimit)
-        {
-            int random = rnd.Next(lowerLimit, upperLimit);
-            return random;
-        }
 
 
     }

@@ -6,37 +6,81 @@ using System.Threading.Tasks;
 
 namespace lemonade_stand
 {
-    class Inventory
+    static public class Inventory
     {
 
         // member variables (HAS A)
-        public Game Game;
-        public double quantityOfItem;
-        public double sellPrice;
+        static public double amountOfLemons; /*can i delete these?*/
+        static public double amountOfSugarInCups;
+        static public double amountOfIceBags;
+
+
 
         // constructor  (SPAWNER)
-        public Inventory()
+        static Inventory()
         {
         }
 
 
         // member methods (CAN DO)
 
-
-        public virtual double ReturnAmountOfLemons()
+        /*lemons*/
+        static public  double ReturnCurrentAmountOfLemons()
         {
-            return ReturnAmountOfLemons();
+            return amountOfLemons;
         }
 
-        public virtual double ReturnAmountOfBagsOfSugar()
+        public static double BuyLemonsFromStore(double lemonsBought) // subtract supplies used that day and/or add items purchased at store
         {
-            return ReturnAmountOfBagsOfSugar();
+            return amountOfLemons + lemonsBought;
         }
 
-        public virtual double ReturnAmountOfBagsOfIce()
+        public static double UseLemonsToMakeLemonade(double lemonsUsed)
         {
-            return ReturnAmountOfBagsOfIce();
+            return amountOfLemons - lemonsUsed;
         }
+        /*lemons*/
+
+
+
+        /*sugar*/
+        static public  double ReturnCurrentAmountOfCupsOfSugar()
+        {
+            return amountOfSugarInCups;
+        }
+
+        static public double BuyBagsOfSugarFromStore(double bagsBought) // subtract supplies used that day and/or add items purchased at store
+        {
+            return amountOfSugarInCups + (bagsBought * 8);
+        }
+        static public double UseCupsOfSugarToMakeLemonade(double cupsOfSugarUsed)
+        {
+            return amountOfSugarInCups;
+        }
+
+        /*sugar*/
+
+
+
+        /*ice*/
+        static public  double ReturnCurrentAmountOfBagsOfIce()
+        {
+            return amountOfIceBags;
+        }
+
+        static public double UseBagsOfIceToMakeLemonade(double bagsUsed)
+        {
+            return amountOfIceBags - bagsUsed;
+        }
+
+        static public double BuyBagsOfIceFromStore(double bagsBought) // subtract supplies used that day and/or add items purchased at store
+        {
+            return amountOfIceBags + bagsBought;
+        }
+        /*ice*/
+
+
+
 
     }
 }

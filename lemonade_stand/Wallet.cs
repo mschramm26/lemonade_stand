@@ -10,25 +10,24 @@ namespace lemonade_stand
     {
         // member variables (HAS A)
         public double dollarsInWallet;
-        public Game Game;
 
         // constructor (SPAWNER)
         public Wallet()
         {
         }
 
-        public double HasBeginningBalanceOf()
-        {
-            double beginningBalance = 50;
-            return beginningBalance;
-        }
+        // member methods (CAN DO)
 
-        public double ContainsMoney()
+        public double ContainsMoneyInDollars()
         {
             return dollarsInWallet;
         }
 
-        // member methods (CAN DO)
+        public void PrintBeginningBalance(double currentBalance)
+        {
+            Console.WriteLine("You have " + currentBalance + " in your wallet.");
+        }
+
         public double ReceiveMoneyFromCustomer(double moneyReceived) {
             dollarsInWallet = dollarsInWallet + moneyReceived;
             return dollarsInWallet;

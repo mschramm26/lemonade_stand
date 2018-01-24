@@ -10,7 +10,6 @@ namespace lemonade_stand
     {
         // member variables (HAS A)
         public string playerName;
-        public Game Game;
 
 
         // constructor (SPAWNER)
@@ -25,7 +24,7 @@ namespace lemonade_stand
         public string GetName()
         {
             Console.WriteLine("Please enter your name.");
-            playerName = Console.ReadLine(); // validate this?
+            playerName = Console.ReadLine(); // validate this? need for SQL
             return playerName;
         }
 

@@ -6,33 +6,33 @@ using System.Threading.Tasks;
 
 namespace lemonade_stand
 {
-    class Weather
+    public static class Weather
     {
         // member variables (HAS A)
-        public Game Game;
-        public string typeOfWeather;
-        public Random rnd;
+        //static Game game;
 
         // constructor (SPAWNER)
-        public Weather()
+        static Weather()
         {
+            
         }
 
         // member methods (CAN DO)
 
-        public int SetForecastForDay(Random rnd, int lowerLimit, int upperLimit)
+        public static int SetWeatherForecastForDay()
         {
-            lowerLimit = 0;
-            upperLimit = Game.CountWeatherPossibilities(Game.weatherPossibilities);
-            int forecastWeatherID = rnd.Next(lowerLimit, upperLimit); // select random choice from the list
+            int lowerLimit = 0;
+            int upperLimit = Game.CountWeatherPossibilities(Game.weatherPossibilities);
+            int forecastWeatherID = Game.rnd.Next(lowerLimit, upperLimit); // select random choice from the list
             return forecastWeatherID;
         }
 
 
-        public double DetermineActualWeatherForDay(List<string> weatherPossibilities)
+        public static int SetActualWeatherForDay()
         {
-
-            double actualWeatherID = rnd.Next(0, weatherPossibilities.Count); // select random choice from the list
+            int lowerLimit = 0;
+            int upperLimit = Game.CountWeatherPossibilities(Game.weatherPossibilities);
+            int actualWeatherID = Game.rnd.Next(lowerLimit, upperLimit); // select random choice from the list
             return actualWeatherID;
         }
 
