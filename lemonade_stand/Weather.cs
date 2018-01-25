@@ -23,7 +23,7 @@ namespace lemonade_stand
         public static double SetWeatherForecastForDay()
         {
             int lowerLimit = 0;
-            int upperLimit = Game.CountWeatherPossibilities(Game.weatherPossibilities) - 1;
+            int upperLimit = Game.weatherPossibilities.Count() - 1;
             forecastWeatherID = Game.rnd.Next(lowerLimit, upperLimit); // select random choice from the list
             Convert.ToDouble(forecastWeatherID);
             return forecastWeatherID;
@@ -39,10 +39,10 @@ namespace lemonade_stand
                 actualWeatherID = Game.rnd.Next(lowerLimit, upperLimit);
                 return actualWeatherID;
             }
-            if (forecast == Game.CountWeatherPossibilities(Game.weatherPossibilities) - 1) // last index position
+            if (forecast == Game.weatherPossibilities.Count() - 1) // last index position
             {
-                int lowerLimit = Convert.ToInt32(Game.CountWeatherPossibilities(Game.weatherPossibilities) - 3);
-                int upperLimit = Convert.ToInt32(Game.CountWeatherPossibilities(Game.weatherPossibilities) - 1);
+                int lowerLimit = Convert.ToInt32(Game.weatherPossibilities.Count() - 3);
+                int upperLimit = Convert.ToInt32(Game.weatherPossibilities.Count() - 1);
                 actualWeatherID = Game.rnd.Next(lowerLimit, upperLimit);
                 return actualWeatherID;
             }

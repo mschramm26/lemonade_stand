@@ -19,7 +19,9 @@ namespace lemonade_stand
 
         // member methods (CAN DO)
 
-        public static void WelcomeAndRules()
+
+
+        public static void Introduction()
         {
             Console.WriteLine("Welcome to the Lemonade Stand game!");
             Console.WriteLine("You will play for one week (7 days). Each day, you'll choose how much inventory to buy and how much to sell the lemonade for based on the weather.");
@@ -50,7 +52,7 @@ namespace lemonade_stand
 
         public static void PrintMoneyInWallet()
         {
-            Console.WriteLine("You have $" + Game.wallet.ContainsMoneyInDollars() + ".");
+            Console.WriteLine("You have $" + Wallet.ContainsMoneyInDollars() + ".");
         }
 
         public static double ShowFinancialsAtEndOfDayAndReturnProfitOrLoss(double cupsSoldToday)
@@ -58,7 +60,7 @@ namespace lemonade_stand
             double dollarsMadeToday = Game.SellLemonadeToCustomerReturnsNumberOfCups() * Player.SetPriceOfCupOfLemonadeForDay();
             double expensesToday = Day.CalculateDailyExpenses();
 
-            Console.WriteLine("You sold " + Game.cupsSoldToday + " cups today.");
+            Console.WriteLine("You sold " + cupsSoldToday + " cups today.");
             Console.WriteLine("You made $" + dollarsMadeToday + ".");
             Console.WriteLine("Your expenses today were $" + expensesToday + ".");
 

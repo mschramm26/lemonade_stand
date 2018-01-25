@@ -25,7 +25,7 @@ namespace lemonade_stand
         // member methods (CAN DO)
 
         /*START lemons*/
-        static public  double ReturnCurrentAmountOfLemons()
+        static public double ReturnCurrentAmountOfLemons()
         {
             return amountOfLemons;
         }
@@ -44,7 +44,7 @@ namespace lemonade_stand
 
 
         /*START sugar*/
-        static public  double ReturnCurrentAmountOfCupsOfSugar()
+        static public double ReturnCurrentAmountOfCupsOfSugar()
         {
             return amountOfSugarInCups;
         }
@@ -63,7 +63,7 @@ namespace lemonade_stand
 
 
         /*START ice*/
-        static public  double ReturnCurrentAmountOfBagsOfIce()
+        static public double ReturnCurrentAmountOfBagsOfIce()
         {
             return amountOfIceBags;
         }

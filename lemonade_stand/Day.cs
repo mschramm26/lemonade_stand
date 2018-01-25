@@ -12,16 +12,13 @@ namespace lemonade_stand
         public double numberOfPotentialCustomers; // each customer is an object
         public double numberOfActualCustomers;
         public Customer customer;
-
+        public double cupsSoldToday;
 
         public double forecastWeather;
         public double actualWeather;
 
 
-
-        
-
-        // constructor  (SPAWNER)
+        // constructor (SPAWNER)
         public Day()
         {
             
@@ -41,44 +38,42 @@ namespace lemonade_stand
 
             UserInterface.PrintMoneyInWallet();
 
-            double lemonsPerPitcherToday = GetNumberOfLemonsPerPitcherToUseInRecipeForDay();
-            double sugarPerPitcherToday = GetNumberOfCupsOfSugarPerPitcherToUseInRecipeForDay();
-            double iceCubesPerPitcherToday = GetNumberOfIceCubesPerPitcherToUseInRecipeForDay();
+            double lemonsPerPitcherToday = Player.SetNumberOfLemonsPerPitcherToUseInRecipeForDay();
+            double sugarPerPitcherToday = Player.SetNumberOfCupsOfSugarPerPitcherToUseInRecipeForDay();
+            double iceCubesPerPitcherToday = Player.SetNumberOfIceCubesPerPitcherToUseInRecipeForDay();
             Console.WriteLine("Your lemonade recipe today:"); 
             Console.WriteLine("Lemons per pitcher: " + lemonsPerPitcherToday);
             Console.WriteLine("Cups of sugar per pitcher: " + sugarPerPitcherToday);
             Console.WriteLine("Ice cubes per pitcher: " + iceCubesPerPitcherToday);
 
-            double lemonsToAddToInventory = GetNumberOfLemonsToOrderForToday(); // get number of lemons to order today
+            double lemonsToAddToInventory = Player.SetNumberOfLemonsToOrderForToday(); // get number of lemons to order today
             Inventory.amountOfLemons = Inventory.BuyLemonsFromStore(lemonsToAddToInventory); // adding the number of lemons desired to inventory
-            Game.wallet.PayMoneyToStore(lemonsToAddToInventory * Store.SetStoreSellingPriceOfLemons()); // subtracting cost of lemons from wallet
+            Wallet.PayMoneyToStore(lemonsToAddToInventory * Store.SetStoreSellingPriceOfLemons()); // subtracting cost of lemons from wallet
             UserInterface.PrintMoneyInWallet(); // printing current amount in wallet
             UserInterface.PrintInventoryStatus(); // printing inventory status (must include newly updated lemon amount)
 
-            double bagsOfSugarToAddToInventory = GetNumberOfBagsOfSugarToOrderForToday();
+            double bagsOfSugarToAddToInventory = Player.SetNumberOfBagsOfSugarToOrderForToday();
             Inventory.amountOfSugarInCups = Inventory.BuyBagsOfSugarFromStore(bagsOfSugarToAddToInventory); 
-            Game.wallet.PayMoneyToStore(bagsOfSugarToAddToInventory * Store.SetStoreSellingPriceOfSugar()); 
+            Wallet.PayMoneyToStore(bagsOfSugarToAddToInventory * Store.SetStoreSellingPriceOfSugar()); 
             UserInterface.PrintMoneyInWallet();
             UserInterface.PrintInventoryStatus();
 
-            double iceToAddToInventory = GetNumberOfBagsOfIceToOrderForToday();
+            double iceToAddToInventory = Player.SetNumberOfBagsOfIceToOrderForToday();
             Inventory.amountOfIceBags = Inventory.BuyBagsOfIceFromStore(iceToAddToInventory); 
-            Game.wallet.PayMoneyToStore(iceToAddToInventory * Store.SetStoreSellingPriceOfIce()); 
+            Wallet.PayMoneyToStore(iceToAddToInventory * Store.SetStoreSellingPriceOfIce()); 
             UserInterface.PrintMoneyInWallet();
             UserInterface.PrintInventoryStatus();
 
 
             double priceOfCupOfLemonadeToday = Player.SetPriceOfCupOfLemonadeForDay();
 
-            double cupsSoldToday = Game.SellLemonadeToCustomerReturnsNumberOfCups(); // loooooooooooooong function
+            cupsSoldToday = Game.SellLemonadeToCustomerReturnsNumberOfCups(); // loooooooooooooong function
 
-            Game.cupsSoldOnDayCounter = Game.cupsSoldOnDayCounter + cupsSoldToday;
 
             UserInterface.ShowFinancialsAtEndOfDayAndReturnProfitOrLoss(cupsSoldToday); 
             UserInterface.PrintInventoryStatus();
 
             return cupsSoldToday;
-            // check to see if it should run another day - or maybe move this to the game class. Count day objects and tell it not to run the next day if it's the last day?
         }
 
 
@@ -94,60 +89,15 @@ namespace lemonade_stand
         /*END getting weather*/}
 
 
-        /*START getting recipe*/
-        public double GetNumberOfLemonsPerPitcherToUseInRecipeForDay() 
-        {
-            Console.WriteLine("Please enter the number of lemons to use per pitcher today.");
-            return Convert.ToDouble(Console.ReadLine());
-        }
-
-        public double GetNumberOfCupsOfSugarPerPitcherToUseInRecipeForDay()
-        {
-            Console.WriteLine("Please enter the number of cups of sugar to use per pitcher today."); // tell it how many bags of sugar are in a bag somewhere;
-            return Convert.ToDouble(Console.ReadLine());
-        }
-        public double GetNumberOfIceCubesPerPitcherToUseInRecipeForDay()
-        {
-            Console.WriteLine("Please enter the number of ice cubes to use per pitcher today."); // tell it how many ice cubes are in a bag somewhere;
-            return Convert.ToDouble(Console.ReadLine());
-        }
-        /*END getting recipe*/
-
-
-        /*START getting amounts of ingredients to order for today*/
-        public static double GetNumberOfLemonsToOrderForToday()
-        {
-            Console.WriteLine("Lemons cost $" + Store.SetStoreSellingPriceOfLemons() + ".");
-            Console.WriteLine("How many lemons would you like to buy today?"); // limited to money available in wallet
-            double amountOfLemonsToBuyForTomorrow = Convert.ToDouble(Console.ReadLine());
-            return amountOfLemonsToBuyForTomorrow;
-        }
-
-        public static double GetNumberOfBagsOfSugarToOrderForToday()
-        {
-            Console.WriteLine("Bags of sugar cost $" + Store.SetStoreSellingPriceOfSugar() + ".");
-            Console.WriteLine("How many bags of sugar would you like to buy today?"); // limited to money available in wallet
-            double amountOfSugarToBuyForTomorrow = Convert.ToDouble(Console.ReadLine());
-            return amountOfSugarToBuyForTomorrow;
-        }
-
-        public static double GetNumberOfBagsOfIceToOrderForToday()
-        {
-            Console.WriteLine("Ice bags cost $" + Store.SetStoreSellingPriceOfIce() + ".");
-            Console.WriteLine("How many bags of ice would you like to buy today?"); // limited to money available in wallet
-            double amountOfIceToBuyForTomorrow = Convert.ToDouble(Console.ReadLine());
-            return amountOfIceToBuyForTomorrow;
-        }
-        /*END getting amounts of ingredients to order for today*/
 
 
     
         public static double CalculateDailyExpenses()
         {
 
-            double costOfLemons = GetNumberOfLemonsToOrderForToday() * Store.SetStoreSellingPriceOfLemons();
-            double costOfSugar = GetNumberOfBagsOfSugarToOrderForToday() * Store.SetStoreSellingPriceOfSugar();
-            double costOfIce = GetNumberOfBagsOfIceToOrderForToday() * Store.SetStoreSellingPriceOfIce();
+            double costOfLemons = Player.SetNumberOfLemonsToOrderForToday() * Store.SetStoreSellingPriceOfLemons();
+            double costOfSugar = Player.SetNumberOfBagsOfSugarToOrderForToday() * Store.SetStoreSellingPriceOfSugar();
+            double costOfIce = Player.SetNumberOfBagsOfIceToOrderForToday() * Store.SetStoreSellingPriceOfIce();
 
             double expenses = costOfLemons + costOfSugar + costOfIce;
             return expenses;

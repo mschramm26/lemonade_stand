@@ -10,22 +10,13 @@ namespace lemonade_stand
     {
         static void Main(string[] args)
         {
-            // member variables (HAS A)
+
+            Game playGame = new Game();
+            playGame.PlayGame();
 
 
-            // constructor  (SPAWNER)
-
-
-            // member methods (CAN DO)
-
-                //Game playGame = new Game();
-                //playGame.PlayGame();
-
-
-                Game.PlayGame();
-
-                Console.ReadLine();
-                // Environment.Exit(0); 
+            Console.ReadLine();
+            // Environment.Exit(0); 
 
         }
     }

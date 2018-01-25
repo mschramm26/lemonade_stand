@@ -6,54 +6,46 @@ using System.Threading.Tasks;
 
 namespace lemonade_stand
 {
-     static class Game
+     public class Game
     {
         // member variables (HAS A)
-        public static double numberOfDaysToPlay = 7;
-        public static Wallet wallet;
+        string playerName;
+        public const double numberOfDaysToPlay = 7;
 
         public static List<string> weatherPossibilities;
-        public static List<object> daysInGame;
+        public static List<object> daysInGameListOfObjects;
 
         public static Random rnd;
+        /*public*/ private /*static*/ Day day; // public? private? static?
 
-        public static Day day;
-        //public static Day dayTwo;
-        //public static Day dayThree;
-        //public static Day dayFour;
-        //public static Day dayFive;
-        //public static Day daySix;
-        //public static Day daySeven;
+        //public /*static*/ double cupsSoldToday;
+        public /*static*/ double cupsSoldOnDayCounter;
 
-        public static double cupsSoldToday;
-        public static double cupsSoldOnDayCounter;
+        public /*static*/ double runningProfitOrLoss; // $50 different from running balance
 
-        public static double runningProfitOrLoss; // (it's $50 different from running balance)
-
+        public static double finalScore;
 
 
         // constructor (SPAWNER)
-        static Game()
+        public Game()
         {
-            wallet = new Wallet();
-
-            List<string> weatherPossibilities = WeatherPossibilities;
-            List<object> daysInGame = new List<object>();
-
             Random rnd = new Random();
 
-            Day day = new Day();
+            List<string> weatherPossibilities = WeatherPossibilities;
+            List<object> daysInGameListOfObjects = new List<object>();
 
-
+            //day = new Day();
+            AddDaysToBePlayedToListOfObjects();
         }
 
         // member methods (CAN DO)
-        public static void PlayGame()
+        public /*static*/ void PlayGame()
         {
-            UserInterface.WelcomeAndRules();
-            string playerName = Player.EnterName();
+            UserInterface.Introduction();
+            playerName = Player.SetName();
 
-            wallet.dollarsInWallet = 50;
+            Wallet.dollarsInWallet = 50;
+
             runningProfitOrLoss = 0;
 
             Inventory.amountOfLemons = 0;
@@ -61,18 +53,15 @@ namespace lemonade_stand
             Inventory.amountOfIceBags = 0;
 
 
-            foreach(object day in daysInGame)
+            for (int i = 0; i <= daysInGameListOfObjects.Count - 1; i++)
             {
-                cupsSoldToday = Game.day.RunDay();
-                runningProfitOrLoss = TrackAndPrintRunningWeeklyProfitOrLoss(runningProfitOrLoss);
+                daysInGameListOfObjects[i].RunDay();
+                runningProfitOrLoss = TrackAndPrintRunningWeeklyProfitOrLoss(runningProfitOrLoss); // ok?
             }
-
-
 
             UserInterface.SummarizeWeek();
 
-            double finalScore;
-            finalScore = wallet.dollarsInWallet;
+            finalScore = Wallet.dollarsInWallet;
 
             SaveFinalScoreOfPlayerToDatabase(finalScore);
             UserInterface.PrintHighScoresFromAllTime();
@@ -80,34 +69,16 @@ namespace lemonade_stand
         }
 
 
-        static public double TrackAndPrintRunningWeeklyProfitOrLoss(double runningProfitOrLoss)
+        public static List<object> AddDaysToBePlayedToListOfObjects()
         {
-            if (UserInterface.ShowFinancialsAtEndOfDayAndReturnProfitOrLoss(cupsSoldToday) == 0)
+            for (int i = 0; i <= numberOfDaysToPlay - 1; i++)
             {
-
-                runningProfitOrLoss = runningProfitOrLoss + 0;
-                Console.WriteLine("You hit even. Your running PROFIT/LOSS for the week is $" + runningProfitOrLoss + "."); 
-                return runningProfitOrLoss;
+                daysInGameListOfObjects.Add(new Day());
             }
-            if (UserInterface.ShowFinancialsAtEndOfDayAndReturnProfitOrLoss(cupsSoldToday) > 0)
-            {
-                runningProfitOrLoss = runningProfitOrLoss + UserInterface.ShowFinancialsAtEndOfDayAndReturnProfitOrLoss(cupsSoldToday);
-                Console.WriteLine("Your running PROFIT/LOSS for the week is $" + runningProfitOrLoss + ".");
-                return runningProfitOrLoss;
-            }
-            if (UserInterface.ShowFinancialsAtEndOfDayAndReturnProfitOrLoss(cupsSoldToday) < 0)
-            {
-                runningProfitOrLoss = runningProfitOrLoss - UserInterface.ShowFinancialsAtEndOfDayAndReturnProfitOrLoss(cupsSoldToday);
-                Console.WriteLine("Your running PROFIT/LOSS for the week is $" + runningProfitOrLoss + ".");
-                return runningProfitOrLoss;
-            }
-            else
-            {
-                return runningProfitOrLoss;
-            }
+            return daysInGameListOfObjects;
         }
 
-        static public List<string> WeatherPossibilities
+        public static List<string> WeatherPossibilities
         {
             set
             {
@@ -133,27 +104,34 @@ namespace lemonade_stand
             }
         }
 
-        static public List<object> ListOfDaysToPlay()
+
+        public /*static*/ double TrackAndPrintRunningWeeklyProfitOrLoss(double runningProfitOrLoss) //  needs more/better logic
         {
-            numberOfDaysToPlay = 7;
-            for (int i = 0; i <= numberOfDaysToPlay - 1; i++)
+            if (UserInterface.ShowFinancialsAtEndOfDayAndReturnProfitOrLoss(cupsSoldToday) == 0)
             {
-                daysInGame.Add(i);
+
+                runningProfitOrLoss = runningProfitOrLoss + 0;
+                Console.WriteLine("You hit even. Your running PROFIT/LOSS for the week is $" + runningProfitOrLoss + ".");
+                return runningProfitOrLoss;
             }
-            return daysInGame;
+            if (UserInterface.ShowFinancialsAtEndOfDayAndReturnProfitOrLoss(cupsSoldToday) > 0)
+            {
+                runningProfitOrLoss = runningProfitOrLoss + UserInterface.ShowFinancialsAtEndOfDayAndReturnProfitOrLoss(cupsSoldToday);
+                Console.WriteLine("Your running PROFIT/LOSS for the week is $" + runningProfitOrLoss + ".");
+                return runningProfitOrLoss;
+            }
+            if (UserInterface.ShowFinancialsAtEndOfDayAndReturnProfitOrLoss(cupsSoldToday) < 0)
+            {
+                runningProfitOrLoss = runningProfitOrLoss - UserInterface.ShowFinancialsAtEndOfDayAndReturnProfitOrLoss(cupsSoldToday);
+                Console.WriteLine("Your running PROFIT/LOSS for the week is $" + runningProfitOrLoss + ".");
+                return runningProfitOrLoss;
+            }
+            else
+            {
+                return runningProfitOrLoss;
+            }
         }
 
-
-
-        static public int CountWeatherPossibilities(List<string> weatherPossibilities)
-        {
-            return weatherPossibilities.Count();
-        }
-
-        public static void SaveFinalScoreOfPlayerToDatabase(double finalScore) // SQL - do this later
-        {
-
-        }
 
         public static void DetermineNumberOfPotentialCustomers()
         {
@@ -163,7 +141,7 @@ namespace lemonade_stand
         }
 
 
-        public static double SellLemonadeToCustomerReturnsNumberOfCups() // DO THIS
+        public /*static*/ double SellLemonadeToCustomerReturnsNumberOfCups() // DO THIS
         {
             cupsSoldOnDayCounter = 0; // could make it a member variable?
 
@@ -195,6 +173,13 @@ namespace lemonade_stand
 
         }
 
+
+
+
+        public static void SaveFinalScoreOfPlayerToDatabase(double finalScore) // SQL - do this later
+        {
+
+        }
 
 
 
