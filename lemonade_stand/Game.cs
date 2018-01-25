@@ -13,12 +13,11 @@ namespace lemonade_stand
         public const double numberOfDaysToPlay = 7;
 
         public static List<string> weatherPossibilities;
-        public static List<object> daysInGameListOfObjects;
+        public static List<Day> daysInGameListOfObjects;
 
         public static Random rnd;
-        /*public*/ private /*static*/ Day day; // public? private? static?
+        public /*static*/ Day day; 
 
-        //public /*static*/ double cupsSoldToday;
         public /*static*/ double cupsSoldOnDayCounter;
 
         public /*static*/ double runningProfitOrLoss; // $50 different from running balance
@@ -32,9 +31,8 @@ namespace lemonade_stand
             Random rnd = new Random();
 
             List<string> weatherPossibilities = WeatherPossibilities;
-            List<object> daysInGameListOfObjects = new List<object>();
 
-            //day = new Day();
+            List<Day> daysInGameListOfObjects = new List<Day>();
             AddDaysToBePlayedToListOfObjects();
         }
 
@@ -52,24 +50,24 @@ namespace lemonade_stand
             Inventory.amountOfSugarInCups = 0;
             Inventory.amountOfIceBags = 0;
 
-
             for (int i = 0; i <= daysInGameListOfObjects.Count - 1; i++)
             {
                 daysInGameListOfObjects[i].RunDay();
-                runningProfitOrLoss = TrackAndPrintRunningWeeklyProfitOrLoss(runningProfitOrLoss); // ok?
+                runningProfitOrLoss = TrackAndPrintRunningWeeklyProfitOrLoss(runningProfitOrLoss);
             }
 
             UserInterface.SummarizeWeek();
 
             finalScore = Wallet.dollarsInWallet;
 
-            SaveFinalScoreOfPlayerToDatabase(finalScore);
+            SqlConnection.SaveFinalScoreOfPlayerToDatabase(finalScore);
             UserInterface.PrintHighScoresFromAllTime();
 
         }
 
 
-        public static List<object> AddDaysToBePlayedToListOfObjects()
+
+        public static List<Day> AddDaysToBePlayedToListOfObjects()
         {
             for (int i = 0; i <= numberOfDaysToPlay - 1; i++)
             {
@@ -135,9 +133,6 @@ namespace lemonade_stand
 
         public static void DetermineNumberOfPotentialCustomers()
         {
-            // depends on weather. more potential customers when weather is good.
-            // IF weather = good [define good], THEN numberOfCustomers = high [define high]
-            // IF weather = bad [define bad], THEN numberOfCustomers = low [define low]
         }
 
 
@@ -176,10 +171,6 @@ namespace lemonade_stand
 
 
 
-        public static void SaveFinalScoreOfPlayerToDatabase(double finalScore) // SQL - do this later
-        {
-
-        }
 
 
 

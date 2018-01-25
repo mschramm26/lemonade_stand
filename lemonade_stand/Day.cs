@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace lemonade_stand
 {
-    class Day // need to make day ID's
+    public class Day // need to make day ID's
     {
         // member variables (HAS A)
-        public double numberOfPotentialCustomers; // each customer is an object
+        public double numberOfPotentialCustomers;
         public double numberOfActualCustomers;
         public Customer customer;
         public double cupsSoldToday;
@@ -17,11 +17,16 @@ namespace lemonade_stand
         public double forecastWeather;
         public double actualWeather;
 
+        public static List<Customer> poolOfPotentialCustomers;
+
+
 
         // constructor (SPAWNER)
         public Day()
         {
-            
+            List<Customer> poolOfPotentialCustomers = new List<Customer>();
+            GenerateCustomers();
+
         }
 
         // member methods (CAN DO)
@@ -77,7 +82,20 @@ namespace lemonade_stand
         }
 
 
-        /*START getting weather*/
+        public static List<Customer> GenerateCustomers()
+        {
+            for (int i = 0; i <= 100; i++)
+            {
+                int lowerLimit = 1;
+                int upperLimit = 11;
+
+                poolOfPotentialCustomers.Add(new Customer(Game.rnd.Next(lowerLimit, upperLimit), Game.rnd.Next(lowerLimit, upperLimit)));
+            }
+            return poolOfPotentialCustomers;
+        }
+
+
+
         public static double GetWeatherForecastForDay()
         {
             return Weather.SetWeatherForecastForDay();
@@ -86,7 +104,7 @@ namespace lemonade_stand
         public static double GetActualWeatherForDay(double forecast)
         {
             return Weather.SetActualWeatherForDay(forecast);
-        /*END getting weather*/}
+        }
 
 
 

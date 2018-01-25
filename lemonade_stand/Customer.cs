@@ -6,28 +6,28 @@ using System.Threading.Tasks;
 
 namespace lemonade_stand
 {
-    class Customer
+    public class Customer
     {
         // member variables (HAS A)
-        //public Game game;
 
         public double chanceOfBuyingLemonade; // depends on recipe
-                                              // create ~100 customer objects - use iteration. customers will have IF price is below X, customer will buy. IF NOT, customer will not buy.
+                                              // customers will have IF price is below X, customer will buy. IF NOT, customer will not buy.
                                               // actual customers and potential customers
                                               // taste preference
         public double cupsWantedToPurchase;
         public bool isBuyer;
 
+        public double frugalityScale;
+        public double thirstiness;
 
 
 
 
 
-
-        // constructor  (SPAWNER)
-        public Customer()
+        // constructor (SPAWNER)
+        public Customer(double frugalityScale, double thirstinessScale) 
         {
-            // instantiate the ~100 customer objects from above here
+            
         }
 
 
@@ -53,6 +53,12 @@ namespace lemonade_stand
 
             return cupsWantedToPurchase;
         }
+
+
+
+        // depends on weather. more customers when weather is good.
+        // IF weather = good [define good], THEN numberOfCustomers = high [define high]
+        // IF weather = bad [define bad], THEN numberOfCustomers = low [define low]
 
 
     }

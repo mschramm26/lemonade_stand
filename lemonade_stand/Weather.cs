@@ -24,7 +24,7 @@ namespace lemonade_stand
         {
             int lowerLimit = 0;
             int upperLimit = Game.weatherPossibilities.Count() - 1;
-            forecastWeatherID = Game.rnd.Next(lowerLimit, upperLimit); // select random choice from the list
+            forecastWeatherID = Game.rnd.Next(lowerLimit, upperLimit);
             Convert.ToDouble(forecastWeatherID);
             return forecastWeatherID;
         }

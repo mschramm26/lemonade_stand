@@ -14,7 +14,6 @@ namespace lemonade_stand
             Game playGame = new Game();
             playGame.PlayGame();
 
-
             Console.ReadLine();
             // Environment.Exit(0); 
 

@@ -18,9 +18,6 @@ namespace lemonade_stand
         }
 
         // member methods (CAN DO)
-
-
-
         public static void Introduction()
         {
             Console.WriteLine("Welcome to the Lemonade Stand game!");
