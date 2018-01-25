@@ -9,18 +9,15 @@ namespace lemonade_stand
      public class Game
     {
         // member variables (HAS A)
-        string playerName;
+        public static string playerName;
         public const double numberOfDaysToPlay = 7;
 
         public static List<string> weatherPossibilities;
         public static List<Day> daysInGameListOfObjects;
 
         public static Random rnd;
-        public /*static*/ Day day; 
 
-        public /*static*/ double cupsSoldOnDayCounter;
-
-        public /*static*/ double runningProfitOrLoss; // $50 different from running balance
+        public static double runningProfitOrLoss; // $50 different from running balance
 
         public static double finalScore;
 
@@ -37,7 +34,7 @@ namespace lemonade_stand
         }
 
         // member methods (CAN DO)
-        public /*static*/ void PlayGame()
+        public void PlayGame()
         {
             UserInterface.Introduction();
             playerName = Player.SetName();
@@ -52,7 +49,7 @@ namespace lemonade_stand
 
             for (int i = 0; i <= daysInGameListOfObjects.Count - 1; i++)
             {
-                daysInGameListOfObjects[i].RunDay();
+                daysInGameListOfObjects.ElementAt(i);
                 runningProfitOrLoss = TrackAndPrintRunningWeeklyProfitOrLoss(runningProfitOrLoss);
             }
 
@@ -61,7 +58,7 @@ namespace lemonade_stand
             finalScore = Wallet.dollarsInWallet;
 
             SqlConnection.SaveFinalScoreOfPlayerToDatabase(finalScore);
-            UserInterface.PrintHighScoresFromAllTime();
+            SqlConnection.PrintHighScoresFromAllTime();
 
         }
 
@@ -103,24 +100,24 @@ namespace lemonade_stand
         }
 
 
-        public /*static*/ double TrackAndPrintRunningWeeklyProfitOrLoss(double runningProfitOrLoss) //  needs more/better logic
+        public static double TrackAndPrintRunningWeeklyProfitOrLoss(double runningProfitOrLoss) //  needs more/better logic
         {
-            if (UserInterface.ShowFinancialsAtEndOfDayAndReturnProfitOrLoss(cupsSoldToday) == 0)
+            if (UserInterface.ShowFinancialsAtEndOfDayAndReturnProfitOrLoss(Day.cupsSoldToday) == 0)
             {
 
                 runningProfitOrLoss = runningProfitOrLoss + 0;
                 Console.WriteLine("You hit even. Your running PROFIT/LOSS for the week is $" + runningProfitOrLoss + ".");
                 return runningProfitOrLoss;
             }
-            if (UserInterface.ShowFinancialsAtEndOfDayAndReturnProfitOrLoss(cupsSoldToday) > 0)
+            if (UserInterface.ShowFinancialsAtEndOfDayAndReturnProfitOrLoss(Day.cupsSoldToday) > 0)
             {
-                runningProfitOrLoss = runningProfitOrLoss + UserInterface.ShowFinancialsAtEndOfDayAndReturnProfitOrLoss(cupsSoldToday);
+                runningProfitOrLoss = runningProfitOrLoss + UserInterface.ShowFinancialsAtEndOfDayAndReturnProfitOrLoss(Day.cupsSoldToday);
                 Console.WriteLine("Your running PROFIT/LOSS for the week is $" + runningProfitOrLoss + ".");
                 return runningProfitOrLoss;
             }
-            if (UserInterface.ShowFinancialsAtEndOfDayAndReturnProfitOrLoss(cupsSoldToday) < 0)
+            if (UserInterface.ShowFinancialsAtEndOfDayAndReturnProfitOrLoss(Day.cupsSoldToday) < 0)
             {
-                runningProfitOrLoss = runningProfitOrLoss - UserInterface.ShowFinancialsAtEndOfDayAndReturnProfitOrLoss(cupsSoldToday);
+                runningProfitOrLoss = runningProfitOrLoss - UserInterface.ShowFinancialsAtEndOfDayAndReturnProfitOrLoss(Day.cupsSoldToday);
                 Console.WriteLine("Your running PROFIT/LOSS for the week is $" + runningProfitOrLoss + ".");
                 return runningProfitOrLoss;
             }
@@ -131,40 +128,68 @@ namespace lemonade_stand
         }
 
 
-        public static void DetermineNumberOfPotentialCustomers()
+
+        public static double SellLemonadeToCustomerReturnsNumberOfCups()  // iterate through the customer objects
         {
-        }
+            Day.cupsSoldToday = 0;
+            double pitcherCounter;
+
+            double numberCustomerWants = Customer.ChoosesNumberOfCupsToBuyIfAny(Customer.thirstinessScale); // number of cups customer wants to buy - depends on weather, etc. 
+
+            List<double> amounts = new List<double>() { Inventory.amountOfLemons / Day.lemonsPerPitcherToday , Inventory.amountOfSugarInCups / Day.sugarPerPitcherToday, (Inventory.amountOfIceBags * 100) / Day.iceCubesPerPitcherToday };
+            double itemThatMakesSmallestAmountOfCups = amounts.Min(); // this is how many PITCHERS (not cups) we can make today
+            // need to subtract how many cups we already made - make a counter?
+            double comparisonResult = numberCustomerWants.CompareTo(itemThatMakesSmallestAmountOfCups); // do we have enough to sell them the requested amount? if this returns negative, no. if it returns positive, yes. if it returns 0, they are equal.
+
+            bool? canMakeRequestedAmount;
+            if (comparisonResult >= 0)
+            {
+                canMakeRequestedAmount = true;
+            }
+            if (comparisonResult < 0)
+            {
+                canMakeRequestedAmount = false;
+            }
+            else
+            {
+                canMakeRequestedAmount = null;
+            }
+
+            if (canMakeRequestedAmount == true)
+            {
+                // sell them that amount:
+                
+                Wallet.dollarsInWallet += numberCustomerWants * Day.priceOfCupOfLemonadeToday; // calculate revenue and add revenue to wallet
+
+                // subtract lemons, sugar, and ice from inventory (calculate fractional amounts per cup?)
+                Inventory.amountOfLemons - 1/8
+                Inventory.amountOfSugarInCups  - 
+                Inventory.amountOfIceBags - 
 
 
-        public /*static*/ double SellLemonadeToCustomerReturnsNumberOfCups() // DO THIS
-        {
-            cupsSoldOnDayCounter = 0; // could make it a member variable?
+                Day.cupsSoldToday += numberCustomerWants;
 
-            // iterate through the customer objects
-
-            //if (customer.WantsToBuy())
-            //{
-
-            //}
-
-
-
-            // does the customer want to buy? depends on weather, etc. if weather is good, more cups are sold. if weather is bad, fewer cups are sold.
-            // if the customer wants to buy, how many cups does he/she want?
-            // check to see if we have enough to sell them that amount
-            // if we do have enough, sell them that amount
-            // calculate revenue (numberOfCupsOrdered * priceOfCup)
-            // add revenue to wallet
-            // subtract lemons, sugar, and ice from inventory (calculate fractional amounts per cup?)
-            // check to see if we're out of stock (if we don't have enough of any ingredient to make another full cup)
-            // if we are out of stock, end the day
-            // if we aren't out of stock, proceed to ask the next customer
-            // if we don't have enough, sell them partial until we can't sell any more full cups
-            // then end day because we're out of stock
-            // if the customer does not want to buy, check next customer if there is one
+                    // check to see if we're out of stock (if we don't have enough of any ingredient to make another full pitcher)
+                    if (Inventory.amountOfLemons < Day.lemonsPerPitcherToday) & (Inventory.amountOfSugarInCups < Day.sugarPerPitcherToday) (Inventory.amountOfIceBags/100 < Day.iceCubesPerPitcherToday)
+                    {
+                        bool isOutOfStock = true; // GO TO NEXT DAY
+                    }
+                    else
+                    {
+                        bool isOutOfStock = false; // ask the next customer
+                    }
+            }
+            if (canMakeRequestedAmount == false)
+            {
+                // sell them partial until we can't sell any more full cups
+                // then end day because we're out of stock
+            }
+            else {
+                null;
+            }
 
 
-            return cupsSoldOnDayCounter;
+            return Day.cupsSoldToday;
 
         }
 

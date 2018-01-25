@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace lemonade_stand
 {
-    static class Store
+    public static class Store
     {
         // member variables (HAS A)
 
-        static public double storeLemonPriceInDollars; // add bulk discount if there's time
-        static public double storeBagOfSugarPriceInDollars;
-        static public double storeBagOfIcePriceInDollars;
+        public static double storeLemonPriceInDollars; // could add bulk discount
+        public static double storeBagOfSugarPriceInDollars;
+        public static double storeBagOfIcePriceInDollars;
 
 
         // constructor  (SPAWNER)
@@ -24,17 +24,17 @@ namespace lemonade_stand
         // member methods (CAN DO)
 
 
-        static public double SetStoreSellingPriceOfLemons() 
+        public static double SetStoreSellingPriceOfLemons() 
         {
             return storeLemonPriceInDollars = 1;
         }
 
-        static public double SetStoreSellingPriceOfSugar() 
+        public static double SetStoreSellingPriceOfSugar() 
         {
             return storeBagOfSugarPriceInDollars = 2;
         }
 
-        static public double SetStoreSellingPriceOfIce() 
+        public static double SetStoreSellingPriceOfIce() 
         {
             return storeBagOfIcePriceInDollars = 3;
         }

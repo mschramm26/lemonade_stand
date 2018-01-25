@@ -6,46 +6,53 @@ using System.Threading.Tasks;
 
 namespace lemonade_stand
 {
-    public class Day // need to make day ID's
+    public class Day 
     {
         // member variables (HAS A)
-        public double numberOfPotentialCustomers;
-        public double numberOfActualCustomers;
-        public Customer customer;
-        public double cupsSoldToday;
+        public static double cupsSoldToday;
 
-        public double forecastWeather;
-        public double actualWeather;
+        public static double forecastWeather;
+        public static double actualWeather;
+
+        public Customer customer;
 
         public static List<Customer> poolOfPotentialCustomers;
 
+        public static double numberOfPotentialCustomers;
+
+        public static double lemonsPerPitcherToday;
+        public static double sugarPerPitcherToday;
+        public static double iceCubesPerPitcherToday;
 
 
         // constructor (SPAWNER)
         public Day()
         {
-            List<Customer> poolOfPotentialCustomers = new List<Customer>();
-            GenerateCustomers();
+            customer = new Customer(double frugalityScale, double thirstinessScale);
 
+            List<Customer> poolOfPotentialCustomers = new List<Customer>();
+            forecastWeather = GetWeatherForecastForDay(); // investigate
+
+            actualWeather = GetActualWeatherForDay(forecastWeather);
+            numberOfPotentialCustomers = SetNumberOfPotentialCustomers(actualWeather);
+            GenerateCustomers(numberOfPotentialCustomers);
         }
 
         // member methods (CAN DO)
 
-        public double RunDay()
+        public static double RunDay()
         {
-            forecastWeather = GetWeatherForecastForDay(); // what is the point of this? do they need to order inventory for the next day at the end of the current day? at the moment, they order inventory in the morning.
             UserInterface.PrintWeatherForecastForDay();
 
-            actualWeather = GetActualWeatherForDay(forecastWeather);
             UserInterface.PrintActualWeatherForDay();
 
             UserInterface.PrintInventoryStatus();
 
             UserInterface.PrintMoneyInWallet();
 
-            double lemonsPerPitcherToday = Player.SetNumberOfLemonsPerPitcherToUseInRecipeForDay();
-            double sugarPerPitcherToday = Player.SetNumberOfCupsOfSugarPerPitcherToUseInRecipeForDay();
-            double iceCubesPerPitcherToday = Player.SetNumberOfIceCubesPerPitcherToUseInRecipeForDay();
+            lemonsPerPitcherToday = Player.SetNumberOfLemonsPerPitcherToUseInRecipeForDay();
+            sugarPerPitcherToday = Player.SetNumberOfCupsOfSugarPerPitcherToUseInRecipeForDay();
+            iceCubesPerPitcherToday = Player.SetNumberOfIceCubesPerPitcherToUseInRecipeForDay();
             Console.WriteLine("Your lemonade recipe today:"); 
             Console.WriteLine("Lemons per pitcher: " + lemonsPerPitcherToday);
             Console.WriteLine("Cups of sugar per pitcher: " + sugarPerPitcherToday);
@@ -72,7 +79,8 @@ namespace lemonade_stand
 
             double priceOfCupOfLemonadeToday = Player.SetPriceOfCupOfLemonadeForDay();
 
-            cupsSoldToday = Game.SellLemonadeToCustomerReturnsNumberOfCups(); // loooooooooooooong function
+
+            cupsSoldToday = Game.SellLemonadeToCustomerReturnsNumberOfCups();
 
 
             UserInterface.ShowFinancialsAtEndOfDayAndReturnProfitOrLoss(cupsSoldToday); 
@@ -81,18 +89,33 @@ namespace lemonade_stand
             return cupsSoldToday;
         }
 
-
-        public static List<Customer> GenerateCustomers()
+        public double SetNumberOfPotentialCustomers(double actualWeather) 
         {
-            for (int i = 0; i <= 100; i++)
+            if (actualWeather > ((Game.weatherPossibilities.Count) / 3) * 2) // bad weather (positions 10-15ish)
             {
-                int lowerLimit = 1;
-                int upperLimit = 11;
+                numberOfPotentialCustomers = 50;
+            }
+            if (actualWeather <= (Game.weatherPossibilities.Count) / 3) // good weather (weather index positions 1-5ish)
+            {
+                numberOfPotentialCustomers = 150;
+            }
+            else
+            {
+                numberOfPotentialCustomers = 100;
+            }
+            return numberOfPotentialCustomers;
+        }
+        
 
-                poolOfPotentialCustomers.Add(new Customer(Game.rnd.Next(lowerLimit, upperLimit), Game.rnd.Next(lowerLimit, upperLimit)));
+        public static List<Customer> GenerateCustomers(double numberOfPotentialCustomers)
+        {
+            for (int i = 0; i <= Convert.ToInt32(numberOfPotentialCustomers); i++)
+            {
+                poolOfPotentialCustomers.Add(new Customer(double frugalityScale, double thirstinessScale));
             }
             return poolOfPotentialCustomers;
         }
+
 
 
 
@@ -122,11 +145,6 @@ namespace lemonade_stand
         }
 
 
-
-        public void DetermineNumberOfActualCustomers()
-        {
-            // calculate based on customer attributes
-        }
 
 
 

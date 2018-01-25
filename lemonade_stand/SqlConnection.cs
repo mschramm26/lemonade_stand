@@ -20,11 +20,15 @@ namespace lemonade_stand
 
         // member methods (CAN DO)
 
-        public static void SaveFinalScoreOfPlayerToDatabase(double finalScore) // do this later
+        public static void SaveFinalScoreOfPlayerToDatabase(double finalScore) // do later
         {
 
         }
 
+        public static void PrintHighScoresFromAllTime() // do later
+        {
+
+        }
 
 
     }

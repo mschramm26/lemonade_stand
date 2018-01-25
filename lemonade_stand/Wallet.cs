@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace lemonade_stand
 {
-    static class Wallet
+    public static class Wallet
     {
         // member variables (HAS A)
         public static double dollarsInWallet;

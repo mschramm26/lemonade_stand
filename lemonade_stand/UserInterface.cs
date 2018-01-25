@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace lemonade_stand
 {
-    static class UserInterface
+    public static class UserInterface
     {
         // member variables (HAS A)
 
@@ -54,7 +54,7 @@ namespace lemonade_stand
 
         public static double ShowFinancialsAtEndOfDayAndReturnProfitOrLoss(double cupsSoldToday)
         {
-            double dollarsMadeToday = Game.SellLemonadeToCustomerReturnsNumberOfCups() * Player.SetPriceOfCupOfLemonadeForDay();
+            double dollarsMadeToday = cupsSoldToday * Player.SetPriceOfCupOfLemonadeForDay();
             double expensesToday = Day.CalculateDailyExpenses();
 
             Console.WriteLine("You sold " + cupsSoldToday + " cups today.");
@@ -142,10 +142,6 @@ namespace lemonade_stand
         }
 
 
-        public static void PrintHighScoresFromAllTime() // SQL - do this later
-        {
-            
-        }
 
     }
 }

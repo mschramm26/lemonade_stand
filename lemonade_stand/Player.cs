@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace lemonade_stand
 {
-    static class Player
+    public static class Player
     {
         // member variables (HAS A)
 
@@ -23,7 +23,7 @@ namespace lemonade_stand
         public static string SetName()
         {
             Console.WriteLine("Please enter your name.");
-            string playerName = Console.ReadLine(); // validate this? need for SQL
+            string playerName = Console.ReadLine(); // validate this - need for SQL
             return playerName;
         }
 
@@ -54,7 +54,7 @@ namespace lemonade_stand
         public static double SetNumberOfLemonsToOrderForToday() /*START getting amounts of ingredients to order for today*/
         {
             Console.WriteLine("Lemons cost $" + Store.SetStoreSellingPriceOfLemons() + ".");
-            Console.WriteLine("How many lemons would you like to buy today?"); // limited to money available in wallet
+            Console.WriteLine("How many lemons would you like to buy today?"); // validate - limited to money available in wallet
             double amountOfLemonsToBuyForTomorrow = Convert.ToDouble(Console.ReadLine());
             return amountOfLemonsToBuyForTomorrow;
         }
@@ -62,7 +62,7 @@ namespace lemonade_stand
         public static double SetNumberOfBagsOfSugarToOrderForToday()
         {
             Console.WriteLine("Bags of sugar cost $" + Store.SetStoreSellingPriceOfSugar() + ".");
-            Console.WriteLine("How many bags of sugar would you like to buy today?"); // limited to money available in wallet
+            Console.WriteLine("How many bags of sugar would you like to buy today?"); // validate - limited to money available in wallet
             double amountOfSugarToBuyForTomorrow = Convert.ToDouble(Console.ReadLine());
             return amountOfSugarToBuyForTomorrow;
         }
@@ -70,7 +70,7 @@ namespace lemonade_stand
         public static double SetNumberOfBagsOfIceToOrderForToday()
         {
             Console.WriteLine("Ice bags cost $" + Store.SetStoreSellingPriceOfIce() + ".");
-            Console.WriteLine("How many bags of ice would you like to buy today?"); // limited to money available in wallet
+            Console.WriteLine("How many bags of ice would you like to buy today?"); // validate - limited to money available in wallet
             double amountOfIceToBuyForTomorrow = Convert.ToDouble(Console.ReadLine());
             return amountOfIceToBuyForTomorrow;
         } /*END getting amounts of ingredients to order for today*/

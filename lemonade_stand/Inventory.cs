@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace lemonade_stand
 {
-    static public class Inventory
+    public static class Inventory
     {
 
         // member variables (HAS A)
-        static public double amountOfLemons; 
-        static public double amountOfSugarInCups;
-        static public double amountOfIceBags;
+        public static double amountOfLemons; 
+        public static double amountOfSugarInCups;
+        public static double amountOfIceBags;
 
 
 
@@ -25,7 +25,7 @@ namespace lemonade_stand
         // member methods (CAN DO)
 
         /*START lemons*/
-        static public double ReturnCurrentAmountOfLemons()
+        public static double ReturnCurrentAmountOfLemons()
         {
             return amountOfLemons;
         }
@@ -44,16 +44,16 @@ namespace lemonade_stand
 
 
         /*START sugar*/
-        static public double ReturnCurrentAmountOfCupsOfSugar()
+        public static double ReturnCurrentAmountOfCupsOfSugar()
         {
             return amountOfSugarInCups;
         }
 
-        static public double BuyBagsOfSugarFromStore(double bagsBought) 
+        public static double BuyBagsOfSugarFromStore(double bagsBought) 
         {
             return amountOfSugarInCups + (bagsBought * 8);
         }
-        static public double UseCupsOfSugarToMakeLemonade(double cupsOfSugarUsed)
+        public static double UseCupsOfSugarToMakeLemonade(double cupsOfSugarUsed)
         {
             return amountOfSugarInCups;
         }
@@ -63,17 +63,17 @@ namespace lemonade_stand
 
 
         /*START ice*/
-        static public double ReturnCurrentAmountOfBagsOfIce()
+        public static double ReturnCurrentAmountOfBagsOfIce()
         {
             return amountOfIceBags;
         }
 
-        static public double UseBagsOfIceToMakeLemonade(double bagsUsed)
+        public static double UseBagsOfIceToMakeLemonade(double bagsUsed)
         {
             return amountOfIceBags - bagsUsed;
         }
 
-        static public double BuyBagsOfIceFromStore(double bagsBought) // subtract supplies used that day and/or add items purchased at store
+        public static double BuyBagsOfIceFromStore(double bagsBought) 
         {
             return amountOfIceBags + bagsBought;
         }
