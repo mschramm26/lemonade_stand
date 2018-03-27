@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace lemonade_stand
 {
-     public class Game
+    public class Game
     {
         // member variables (HAS A)
         public static string playerName;
@@ -77,20 +77,20 @@ namespace lemonade_stand
         {
             set
             {
-                weatherPossibilities.Add("hot, humid, sunny"); 
-                weatherPossibilities.Add("hot, humid, cloudy"); 
-                weatherPossibilities.Add("hot, rainy"); 
-                weatherPossibilities.Add("hot, sunny"); 
-                weatherPossibilities.Add("hot, cloudy"); 
-                weatherPossibilities.Add("warm, humid, sunny"); 
-                weatherPossibilities.Add("warm, humid, cloudy"); 
-                weatherPossibilities.Add("warm, sunny"); 
-                weatherPossibilities.Add("warm, cloudy"); 
-                weatherPossibilities.Add("chilly, humid, sunny"); 
-                weatherPossibilities.Add("chilly, sunny"); 
-                weatherPossibilities.Add("chilly, humid, cloudy"); 
+                weatherPossibilities.Add("hot, humid, sunny");
+                weatherPossibilities.Add("hot, humid, cloudy");
+                weatherPossibilities.Add("hot, rainy");
+                weatherPossibilities.Add("hot, sunny");
+                weatherPossibilities.Add("hot, cloudy");
+                weatherPossibilities.Add("warm, humid, sunny");
+                weatherPossibilities.Add("warm, humid, cloudy");
+                weatherPossibilities.Add("warm, sunny");
+                weatherPossibilities.Add("warm, cloudy");
+                weatherPossibilities.Add("chilly, humid, sunny");
+                weatherPossibilities.Add("chilly, sunny");
+                weatherPossibilities.Add("chilly, humid, cloudy");
                 weatherPossibilities.Add("chilly, cloudy");
-                weatherPossibilities.Add("warm, rainy"); 
+                weatherPossibilities.Add("warm, rainy");
                 weatherPossibilities.Add("chilly, rainy");
             }
             get
@@ -129,16 +129,16 @@ namespace lemonade_stand
 
 
 
-        public static double SellLemonadeToCustomerReturnsNumberOfCups()  // iterate through the customer objects
+        public static double? SellLemonadeToCustomerReturnsNumberOfCups()  // iterate through the customer objects
         {
             Day.cupsSoldToday = 0;
-            double pitcherCounter;
+            double pitcherCounter = 0;
+            double numberOfCupsPerPitcher = 8;
 
             double numberCustomerWants = Customer.ChoosesNumberOfCupsToBuyIfAny(Customer.thirstinessScale); // number of cups customer wants to buy - depends on weather, etc. 
 
-            List<double> amounts = new List<double>() { Inventory.amountOfLemons / Day.lemonsPerPitcherToday , Inventory.amountOfSugarInCups / Day.sugarPerPitcherToday, (Inventory.amountOfIceBags * 100) / Day.iceCubesPerPitcherToday };
+            List<double> amounts = new List<double>() { Inventory.amountOfLemons / Day.lemonsPerPitcherToday, Inventory.amountOfSugarInCups / Day.sugarPerPitcherToday, (Inventory.amountOfIceBags * 100) / Day.iceCubesPerPitcherToday };
             double itemThatMakesSmallestAmountOfCups = amounts.Min(); // this is how many PITCHERS (not cups) we can make today
-            // need to subtract how many cups we already made - make a counter?
             double comparisonResult = numberCustomerWants.CompareTo(itemThatMakesSmallestAmountOfCups); // do we have enough to sell them the requested amount? if this returns negative, no. if it returns positive, yes. if it returns 0, they are equal.
 
             bool? canMakeRequestedAmount;
@@ -158,34 +158,42 @@ namespace lemonade_stand
             if (canMakeRequestedAmount == true)
             {
                 // sell them that amount:
-                
-                Wallet.dollarsInWallet += numberCustomerWants * Day.priceOfCupOfLemonadeToday; // calculate revenue and add revenue to wallet
 
-                // subtract lemons, sugar, and ice from inventory (calculate fractional amounts per cup?)
-                Inventory.amountOfLemons - 1/8
-                Inventory.amountOfSugarInCups  - 
-                Inventory.amountOfIceBags - 
+                Wallet.dollarsInWallet += numberCustomerWants * Day.priceOfCupOfLemonadeToday; // calculate revenue and add revenue to wallet
 
 
                 Day.cupsSoldToday += numberCustomerWants;
+                pitcherCounter += numberCustomerWants;
 
-                    // check to see if we're out of stock (if we don't have enough of any ingredient to make another full pitcher)
-                    if (Inventory.amountOfLemons < Day.lemonsPerPitcherToday) & (Inventory.amountOfSugarInCups < Day.sugarPerPitcherToday) (Inventory.amountOfIceBags/100 < Day.iceCubesPerPitcherToday)
-                    {
-                        bool isOutOfStock = true; // GO TO NEXT DAY
-                    }
-                    else
-                    {
-                        bool isOutOfStock = false; // ask the next customer
-                    }
+                if (pitcherCounter >= 8)
+                {
+                    // subtract a pitcher's worth of lemons, sugar, and ice from inventory (or maybe multiple pitchers) - do this every time it reaches a multiple of 8
+                    Inventory.amountOfLemons -= Day.lemonsPerPitcherToday;
+                    Inventory.amountOfSugarInCups -= Day.sugarPerPitcherToday;
+                    Inventory.amountOfIceBags = Inventory.amountOfIceBags - (Day.iceCubesPerPitcherToday * 100);
+
+                }
+
+
+                
+                if (amounts.Exists(IsPositiveNumber)) // check to see if we're out of stock (if we don't have enough of any ingredient to make another full pitcher)
+                {
+                    bool isOutOfStock = true; // GO TO NEXT DAY
+                }
+                else
+                {
+                    bool isOutOfStock = false; // ask the next customer
+                }
             }
             if (canMakeRequestedAmount == false)
             {
                 // sell them partial until we can't sell any more full cups
                 // then end day because we're out of stock
             }
-            else {
-                null;
+            else
+            {
+                double? result = null;
+                return result;
             }
 
 
@@ -194,9 +202,19 @@ namespace lemonade_stand
         }
 
 
-
-
-
+        public class bool? IsPositiveNumber(double numberToTest)
+        {
+            bool? isPositiveNumber;
+            if (numberToTest > 0)
+            {
+                isPositiveNumber = true;
+            }
+            else
+            {
+                isPositiveNumber = null;
+            }
+            return isPositiveNumber;
+        }
 
 
     }

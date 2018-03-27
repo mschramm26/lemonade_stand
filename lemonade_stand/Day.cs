@@ -135,7 +135,6 @@ namespace lemonade_stand
     
         public static double CalculateDailyExpenses()
         {
-
             double costOfLemons = Player.SetNumberOfLemonsToOrderForToday() * Store.SetStoreSellingPriceOfLemons();
             double costOfSugar = Player.SetNumberOfBagsOfSugarToOrderForToday() * Store.SetStoreSellingPriceOfSugar();
             double costOfIce = Player.SetNumberOfBagsOfIceToOrderForToday() * Store.SetStoreSellingPriceOfIce();
